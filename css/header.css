@@ -9,7 +9,7 @@
 
 /* Base Header Styles */
 .header {
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     position: fixed; /* Fixes the header to the top */
     top: 0; /* Aligns it to the top */
     left: 0; /* Aligns it to the left */

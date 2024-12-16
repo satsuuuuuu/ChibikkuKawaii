@@ -1,8 +1,9 @@
-<!-- admin/add_product.php -->
 <?php
+// admin/add_product.php
+
 // Start the session and include necessary files
 include 'protect.php'; // Ensure this file handles session protection
-include '../db_connect.php'; // Database connection
+include '../db_connect.php'; // Database connection now in the same directory
 
 // Enable error reporting for debugging (disable in production)
 ini_set('display_errors', 1);
@@ -43,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (in_array($image_extension, $allowed_extensions)) {
             // Define the upload directory
-            $upload_dir = '../uploads/';
+            $upload_dir = 'uploads/'; // Changed to relative path within admin/
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0755, true);
             }
@@ -82,8 +83,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Execute the statement
         if ($stmt->execute()) {
             echo "<p>Product added successfully.</p>";
-            // Optionally, redirect to the dashboard or clear the form
-            // header("Location: dashboard.php?message=Product+added+successfully");
+            // Optionally, redirect to the products page or clear the form
+            // header("Location: products.php?message=Product+added+successfully");
             // exit();
         } else {
             echo "<p>Error adding product: " . htmlspecialchars($stmt->error) . "</p>";
@@ -136,7 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </select>
 
-            <button type="submit">Add Product</button>
+            <button type="submit">Products</button>
         </form>
     </div>
 </body>

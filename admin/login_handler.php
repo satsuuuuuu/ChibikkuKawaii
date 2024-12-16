@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../db_connect.php';
+include 'db_connect.php';
 
 // Retrieve and sanitize input
 $username = htmlspecialchars(trim($_POST['username']));
