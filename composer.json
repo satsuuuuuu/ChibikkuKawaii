@@ -1,0 +1,13 @@
+{
+    "name": "satsujinki/website",
+    "description": "yow",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yes"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
