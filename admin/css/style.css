@@ -1,0 +1,141 @@
+/* css/style.css */
+
+.admin-container {
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.add-button {
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead th {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+tbody td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.edit-button,
+.delete-button {
+    padding: 5px 10px;
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.edit-button {
+    background-color: #2196F3;
+}
+
+.delete-button {
+    background-color: #f44336;
+}
+
+/* General container styling */
+.container {
+    max-width: 400px; /* Limit the width of the form */
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px;
+    background-color: #f9f9f9; /* Light gray background */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    font-family: 'Arial', sans-serif; /* Clean font */
+    text-align: center; /* Center align text */
+}
+
+/* Center the container on the screen */
+body {
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full viewport height */
+    margin: 0; /* Remove default margin */
+    background-color: #f0f0f0; /* Light background for the page */
+}
+
+/* Form heading */
+.container h2 {
+    margin-bottom: 20px;
+    color: #333; /* Dark gray text */
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Label styling */
+.container label {
+    display: block; /* Make labels block elements */
+    margin-bottom: 5px;
+    color: #555; /* Medium gray text */
+    font-size: 14px;
+    text-align: left; /* Align labels to the left */
+}
+
+/* Input field styling */
+.container input[type="text"],
+.container input[type="password"] {
+    width: 100%; /* Full width */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 14px;
+    box-sizing: border-box; /* Include padding in width calculation */
+    transition: border-color 0.3s ease; /* Smooth transition for focus */
+}
+
+/* Input focus effect */
+.container input[type="text"]:focus,
+.container input[type="password"]:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Button styling */
+.container button {
+    width: 100%; /* Full width */
+    padding: 10px;
+    background-color: #007bff; /* Blue background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+}
+
+/* Button hover effect */
+.container button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    transform: scale(1.02); /* Slightly enlarge button on hover */
+}
+
+/* Error message styling */
+.container .error {
+    color: #ff4d4d; /* Red text for errors */
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: left; /* Align error messages to the left */
+}
