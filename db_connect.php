@@ -2,9 +2,9 @@
 // db_connect.php
 
 $servername = "localhost"; 
-$username = "root"; 
-$password = ""; 
-$dbname = "anime_store";
+$username = "u143688490_satsu"; 
+$password = "Satsu_221"; 
+$dbname = "u143688490_satsu";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
