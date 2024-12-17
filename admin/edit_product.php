@@ -50,56 +50,45 @@ $conn->close();
 
 // Assign a default category if category_id is undefined
 if (is_null($category_id) || empty($category_id)) {
-    // Assign 'In Stock' category with id=2
     $category_id = 2; // Replace with your default category ID
 }
-?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Product - Chibikku Kawaii</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="admin-container">
-        <h1>Edit Product</h1>
-        <form action="update_product.php" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" value="<?php echo htmlspecialchars($product_id); ?>">
-            
-            <label for="name">Product Name:</label>
-            <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
-            
-            <label for="description">Description:</label>
-            <textarea id="description" name="description" required><?php echo htmlspecialchars($description); ?></textarea>
-            
-            <label for="original_price">Original Price:</label>
-            <input type="number" id="original_price" name="original_price" value="<?php echo htmlspecialchars($original_price); ?>" step="0.01" required>
-            
-            <label for="discounted_price">Discounted Price:</label>
-            <input type="number" id="discounted_price" name="discounted_price" value="<?php echo htmlspecialchars($discounted_price); ?>" step="0.01" required>
-            
-            <label for="current_image">Current Image:</label>
-            <div class="current-image">
-                <img src="<?php echo htmlspecialchars($image_path ?: 'uploads/default-placeholder.png'); ?>" alt="<?php echo htmlspecialchars($name); ?>" width="200">
-            </div>
-            
-            <label for="image">Upload New Image (Optional):</label>
-            <input type="file" id="image" name="image" accept="image/*">
-            
-            <label for="category">Category:</label>
-            <select name="category_id" id="category" required>
-                <option value="">-- Select Category --</option>
-                <?php foreach ($categories as $category): ?>
-                    <option value="<?php echo htmlspecialchars($category['id']); ?>" <?php if ($category['id'] == $category_id) echo 'selected'; ?>>
-                        <?php echo htmlspecialchars($category['name']); ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
-            
-            <button type="submit">Update Product</button>
-        </form>
-    </div>
-</body>
-</html>
+// Handle image upload securely
+function handleImageUpload($file) {
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $upload_dir = 'uploads/';
+    $default_image = 'uploads/default-placeholder.png';
+
+    // Check if a file was uploaded
+    if (!isset($file['name']) || $file['error'] !== UPLOAD_ERR_OK) {
+        return $default_image; // Return default image if no file uploaded
+    }
+
+    // Validate file type
+    $file_info = pathinfo($file['name']);
+    $file_extension = strtolower($file_info['extension']);
+    if (!in_array($file_extension, $allowed_extensions)) {
+        die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+    }
+
+    // Validate MIME type
+    $mime_type = mime_content_type($file['tmp_name']);
+    if (!in_array($mime_type, ['image/jpeg', 'image/png', 'image/gif'])) {
+        die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+    }
+
+    // Generate a unique file name
+    $new_file_name = uniqid('img_', true) . '.' . $file_extension;
+
+    // Move the uploaded file to the upload directory
+    $destination = $upload_dir . $new_file_name;
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        die("Failed to upload the image.");
+    }
+
+    return $destination;
+}
+
+// Example usage of handleImageUpload (if needed in the update process)
+// $uploaded_image_path = handleImageUpload($_FILES['image']);
+?>

@@ -41,8 +41,31 @@
                     <label for="discounted_price">Discounted Price ($):</label>
                     <input type="number" step="0.01" id="discounted_price" name="discounted_price" value="<?php echo $product['discounted_price']; ?>" required>
 
+                    <label for="current_image">Current Product Image:</label>
+                    <div class="current-image">
+                        <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'uploads/default-placeholder.png'); ?>" alt="Product Image" width="200">
+                    </div>
+
                     <label for="image">Change Product Image:</label>
                     <input type="file" id="image" name="image" accept="image/*">
+
+                    <label for="category">Category:</label>
+                    <select name="category_id" id="category" required>
+                        <?php
+                        // Fetch categories
+                        $category_query = "SELECT id, name FROM categories ORDER BY name ASC";
+                        $category_result = $conn->query($category_query);
+
+                        if ($category_result->num_rows > 0) {
+                            while ($category = $category_result->fetch_assoc()) {
+                                $selected = ($category['id'] == $product['category_id']) ? 'selected' : '';
+                                echo "<option value='" . htmlspecialchars($category['id']) . "' $selected>" . htmlspecialchars($category['name']) . "</option>";
+                            }
+                        } else {
+                            echo "<option value=''>No categories available</option>";
+                        }
+                        ?>
+                    </select>
 
                     <button type="submit">Update Product</button>
                 </form>

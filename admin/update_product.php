@@ -8,6 +8,47 @@ include '../db_connect.php'; // Database connection
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
+// Function to handle secure image upload
+function handleImageUpload($file) {
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
+    $upload_dir = 'uploads/';
+    $default_image = 'uploads/default-placeholder.png';
+
+    // Check if a file was uploaded
+    if (!isset($file['name']) || $file['error'] !== UPLOAD_ERR_OK) {
+        return ''; // Return empty string if no file uploaded
+    }
+
+    // Validate file type
+    $file_info = pathinfo($file['name']);
+    $file_extension = strtolower($file_info['extension']);
+    if (!in_array($file_extension, $allowed_extensions)) {
+        die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+    }
+
+    // Validate MIME type
+    $mime_type = mime_content_type($file['tmp_name']);
+    if (!in_array($mime_type, ['image/jpeg', 'image/png', 'image/gif'])) {
+        die("Invalid file type. Only JPG, JPEG, PNG, and GIF are allowed.");
+    }
+
+    // Generate a unique file name
+    $new_file_name = uniqid('img_', true) . '.' . $file_extension;
+
+    // Ensure the upload directory exists
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+
+    // Move the uploaded file to the upload directory
+    $destination = $upload_dir . $new_file_name;
+    if (!move_uploaded_file($file['tmp_name'], $destination)) {
+        die("Failed to upload the image.");
+    }
+
+    return $destination;
+}
+
 // Check if the form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate and sanitize inputs
@@ -19,40 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
 
     // Handle image upload if a new image is provided
-    $image_path = '';
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $image_tmp_path = $_FILES['image']['tmp_name'];
-        $image_name = basename($_FILES['image']['name']);
-        $image_extension = strtolower(pathinfo($image_name, PATHINFO_EXTENSION));
-
-        // Define allowed image extensions
-        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-
-        if (in_array($image_extension, $allowed_extensions)) {
-            // Define the upload directory
-            $upload_dir = 'uploads/';
-            if (!is_dir($upload_dir)) {
-                mkdir($upload_dir, 0755, true);
-            }
-
-            // Generate a unique file name to prevent overwriting
-            $new_image_name = uniqid('img_', true) . '.' . $image_extension;
-            $dest_path = $upload_dir . $new_image_name;
-
-            // Move the uploaded file to the destination directory
-            if (move_uploaded_file($image_tmp_path, $dest_path)) {
-                $image_path = 'uploads/' . $new_image_name;
-            } else {
-                // Handle upload error
-                header("Location: products.php?edit_error=1");
-                exit();
-            }
-        } else {
-            // Handle invalid format
-            header("Location: products.php?edit_error=1");
-            exit();
-        }
-    }
+    $image_path = handleImageUpload($_FILES['image']);
 
     // Prepare the SQL statement for updating the product
     if ($image_path) {

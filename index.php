@@ -171,7 +171,7 @@ $conn->close();
                             <div class="product-card">
                                 <div class="product-image-container">
                                     <!-- Updated image path to align with 'figures' table structure -->
-                                    <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
+                                    <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'admin/uploads/default-placeholder.png'); ?>" 
                                          alt="<?php echo htmlspecialchars($product['name']); ?>" 
                                          class="product-image" 
                                          loading="lazy">
@@ -203,7 +203,7 @@ $conn->close();
                     foreach ($mainFigures as $figure): ?>
                         <div class="anime-figure-card">
                             <div class="anime-figure-image-container">
-                                <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
+                                <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'admin/uploads/default-placeholder.png'); ?>" 
                                      alt="<?php echo htmlspecialchars($figure['name']); ?>" 
                                      class="anime-figure-image" 
                                      loading="lazy">
