@@ -423,8 +423,11 @@ body {
 
 /* Anime Figures Section */
 .anime-figures-section {
+    position: relative;    
+    width: 100%;
+    max-width: 1200px; 
     padding: 50px 20px;
-    background-color: #ffffff;
+   
 }
 
 .anime-figures-title {
@@ -523,7 +526,7 @@ body {
 }
 
 .anime-figure-carousel-card {
-    background-color: #ffffff;
+  
     border: 1px solid #EEEEEE;
     border-radius: 8px;
     padding: 10px;
@@ -596,7 +599,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    color: #ffffff;
+  
     cursor: pointer;
     transition: background-color 0.3s ease;
 }

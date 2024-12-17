@@ -65,7 +65,7 @@ if (is_null($category_id) || empty($category_id)) {
 <body>
     <div class="admin-container">
         <h1>Edit Product</h1>
-        <form action="update_product.php" method="POST">
+        <form action="update_product.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo htmlspecialchars($product_id); ?>">
             
             <label for="name">Product Name:</label>
@@ -80,8 +80,13 @@ if (is_null($category_id) || empty($category_id)) {
             <label for="discounted_price">Discounted Price:</label>
             <input type="number" id="discounted_price" name="discounted_price" value="<?php echo htmlspecialchars($discounted_price); ?>" step="0.01" required>
             
-            <label for="image_path">Image Path:</label>
-            <input type="text" id="image_path" name="image_path" value="<?php echo htmlspecialchars($image_path); ?>" required>
+            <label for="current_image">Current Image:</label>
+            <div class="current-image">
+                <img src="<?php echo htmlspecialchars($image_path ?: 'uploads/default-placeholder.png'); ?>" alt="<?php echo htmlspecialchars($name); ?>" width="200">
+            </div>
+            
+            <label for="image">Upload New Image (Optional):</label>
+            <input type="file" id="image" name="image" accept="image/*">
             
             <label for="category">Category:</label>
             <select name="category_id" id="category" required>

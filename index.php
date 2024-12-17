@@ -220,36 +220,6 @@ $conn->close();
             <?php endif; ?>
         </div>  
 
-        <!-- Carousel/Slider -->
-        <?php if (count($allProducts) > 2): ?>
-            <div class="anime-figures-carousel splide" id="splide-anime-figures">
-                <div class="splide__track">
-                    <ul class="splide__list">
-                        <?php 
-                            // Display remaining products in the carousel
-                            $carouselFigures = array_slice($allProducts, 2);
-                            foreach ($carouselFigures as $figure): ?>
-                                <li class="splide__slide">
-                                    <div class="anime-figure-carousel-card">
-                                        <div class="anime-figure-carousel-image-container">
-                                            <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
-                                                 alt="<?php echo htmlspecialchars($figure['name']); ?>" 
-                                                 class="anime-figure-carousel-image" 
-                                                 loading="lazy">
-                                        </div>
-                                        <h4 class="anime-figure-carousel-name"><?php echo htmlspecialchars($figure['name']); ?></h4>
-                                        <p class="anime-figure-carousel-original-price">$<?php echo number_format($figure['original_price'], 2); ?></p>
-                                        <p class="anime-figure-carousel-discounted-price">$<?php echo number_format($figure['discounted_price'], 2); ?></p>
-                                        <button class="add-to-cart" data-product-id="<?php echo htmlspecialchars($figure['id']); ?>">Add to Cart</button>
-                                    </div>
-                                </li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-            </div>
-        <?php endif; ?>
-    </section>
-
         <!-- Login Modal -->
 <!-- Login Modal Container -->
 <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">

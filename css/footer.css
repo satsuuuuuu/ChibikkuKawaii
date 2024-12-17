@@ -21,6 +21,7 @@ body {
     background-color: #2D3748; /* Dark gray background */
     color: #FFFFFF; /* White text */
     padding: 1.5rem 1rem; /* Vertical and horizontal padding */
+    height: 10vh;
     min-width: 210vh; /* Maximum width for the footer content */
     margin: 0 auto; /* Center the footer horizontally */
     display: flex; /* Enable Flexbox */
