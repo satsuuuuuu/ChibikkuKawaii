@@ -148,7 +148,7 @@ $conn->close();
                                 <img src="images/carousel<?php echo $i; ?>.jpg" alt="Cute Kawaii Product <?php echo $i; ?>" class="product-image">
                                 <div class="overlay-text">
                                     <h1>Anime Figurines</h1>
-                                    <p></p>
+                                    <p>Your Ultimate Kawaii Shopping Destination!</p>
                                     <a href="shop.php" class="cta-button">Shop Now</a>
                                 </div>
                             </li>
