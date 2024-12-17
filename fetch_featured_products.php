@@ -1,5 +1,5 @@
 <?php
-// includes/fetch_featured_products.php
+// fetch_featured_products.php
 
 include 'db_connect.php'; // Ensure the path is correct
 
@@ -15,7 +15,7 @@ if ($featured_result && $featured_result->num_rows > 0) {
 }
 
 // Fetch products categorized as "Featured"
-$featured_products_query = "SELECT id, name, description, original_price, discounted_price, image_path FROM products WHERE category_id = ?";
+$featured_products_query = "SELECT id, name, description, original_price, discounted_price, image_path FROM figures WHERE category_id = ?";
 $featured_stmt = $conn->prepare($featured_products_query);
 
 if ($featured_stmt === false) {

@@ -161,35 +161,36 @@ $conn->close();
         
         <!-- Featured Merchandise Section -->
         <section class="featured-merchandise">
-            <h2 class="section-title">Featured Anime Merchandise</h2>
-            <?php if (!empty($featuredProducts)): ?>
-                <div id="splide-featured" class="splide">
-                    <div class="splide__track">
-                        <ul class="splide__list">
-                            <?php foreach ($featuredProducts as $product): ?>
-                                <li class="splide__slide">
-                                    <div class="product-card">
-                                        <div class="product-image-container">
-                                            <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'images/default-placeholder.png'); ?>" 
-                                                 alt="<?php echo htmlspecialchars($product['name']); ?>" 
-                                                 class="product-image" 
-                                                 loading="lazy">
-                                        </div>
-                                        <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
-                                        <p class="description"><?php echo htmlspecialchars($product['description']); ?></p>
-                                        <p class="original-price">$<?php echo number_format($product['original_price'], 2); ?></p>
-                                        <p class="discounted-price">$<?php echo number_format($product['discounted_price'], 2); ?></p>
-                                        <button class="add-to-cart" data-product-id="<?php echo htmlspecialchars($product['id']); ?>">Add to Cart</button>
-                                    </div>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                </div>
-            <?php else: ?>
-                <p>No featured anime available at the moment.</p>
-            <?php endif; ?>
-        </section>
+    <h2 class="section-title">Featured Anime Merchandise</h2>
+    <?php if (!empty($featuredProducts)): ?>
+        <div id="splide-featured" class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <?php foreach ($featuredProducts as $product): ?>
+                        <li class="splide__slide">
+                            <div class="product-card">
+                                <div class="product-image-container">
+                                    <!-- Updated image path to align with 'figures' table structure -->
+                                    <img src="<?php echo htmlspecialchars($product['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
+                                         alt="<?php echo htmlspecialchars($product['name']); ?>" 
+                                         class="product-image" 
+                                         loading="lazy">
+                                </div>
+                                <h3 class="product-name"><?php echo htmlspecialchars($product['name']); ?></h3>
+                                <p class="description"><?php echo htmlspecialchars($product['description']); ?></p>
+                                <p class="original-price">$<?php echo number_format($product['original_price'], 2); ?></p>
+                                <p class="discounted-price">$<?php echo number_format($product['discounted_price'], 2); ?></p>
+                                <button class="add-to-cart" data-product-id="<?php echo htmlspecialchars($product['id']); ?>">Add to Cart</button>
+                            </div>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    <?php else: ?>
+        <p>No featured anime available at the moment.</p>
+    <?php endif; ?>
+</section>
        <!-- Anime Figures Section -->
     <section class="anime-figures-section">
         <h2 class="section-title anime-figures-title">Anime Figures</h2>
