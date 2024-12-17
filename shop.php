@@ -180,5 +180,6 @@ loginModalOverlay.addEventListener('click', closeModal);
                 }
             });
     </script>
+        <?php include 'includes/footer.php'; ?>
 </body>
 </html>

@@ -1,17 +1,8 @@
 <?php
-// Start session
 session_start();
+include 'db_connect.php'; // Include your database connection file
 
-// Check if the request is POST
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Database connection
-    $conn = new mysqli('localhost', 'root', '', 'anime_store'); // Update with your DB credentials
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
     // Get username and password from POST request
     $username = $_POST['username'];
     $password = $_POST['password'];

@@ -1,8 +1,9 @@
 <?php
 // admin/update_product.php
 
-include 'protect.php'; // Session protection
-include '../db_connect.php'; // Database connection
+// Include necessary files with corrected paths
+include '../protect.php'; // Adjusted path for session protection
+include '../db_connect.php'; // Adjusted path for database connection
 
 // Enable error reporting for debugging (disable in production)
 ini_set('display_errors', 1);
@@ -11,8 +12,8 @@ error_reporting(E_ALL);
 // Function to handle secure image upload
 function handleImageUpload($file) {
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
-    $upload_dir = 'uploads/';
-    $default_image = 'uploads/default-placeholder.png';
+    $upload_dir = '../uploads/'; // Adjusted path to point to the root-level uploads directory
+    $default_image = '../uploads/default-placeholder.png'; // Adjusted path for default image
 
     // Check if a file was uploaded
     if (!isset($file['name']) || $file['error'] !== UPLOAD_ERR_OK) {
@@ -46,7 +47,7 @@ function handleImageUpload($file) {
         die("Failed to upload the image.");
     }
 
-    return $destination;
+    return 'uploads/' . $new_file_name; // Return relative path for database storage
 }
 
 // Check if the form is submitted via POST
@@ -76,9 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->execute()) {
         // Success: Redirect with success flag
         header("Location: products.php?edit_success=1");
+        exit();
     } else {
         // Failure: Redirect with error flag
         header("Location: products.php?edit_error=1");
+        exit();
     }
 
     $stmt->close();

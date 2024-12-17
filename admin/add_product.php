@@ -2,8 +2,8 @@
 // admin/add_product.php
 
 // Start the session and include necessary files
-include 'protect.php'; // Ensure this file handles session protection
-include '../db_connect.php'; // Database connection now in the same directory
+include '../protect.php'; // Adjusted path
+include '../db_connect.php'; // Adjusted path
 
 // Enable error reporting for debugging (disable in production)
 ini_set('display_errors', 1);
@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (in_array($image_extension, $allowed_extensions)) {
             // Define the upload directory
-            $upload_dir = 'uploads/'; // Changed to relative path within admin/
+            $upload_dir = '../uploads/'; // Adjusted path
             if (!is_dir($upload_dir)) {
                 mkdir($upload_dir, 0755, true);
             }
@@ -83,9 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Execute the statement
         if ($stmt->execute()) {
             echo "<p>Product added successfully.</p>";
-            // Optionally, redirect to the products page or clear the form
-            // header("Location: products.php?message=Product+added+successfully");
-            // exit();
         } else {
             echo "<p>Error adding product: " . htmlspecialchars($stmt->error) . "</p>";
         }
@@ -106,12 +103,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Add New Product - Admin Dashboard</title>
-    <link rel="stylesheet" href="css/style.css"> <!-- Link to your admin CSS -->
+    <link rel="stylesheet" href="../css/style.css"> <!-- Adjusted path -->
 </head>
 <body>
     <div class="container">
         <h2>Add New Product</h2>
-        <form action="add_product.php" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
             <label for="name">Product Name:</label>
             <input type="text" id="name" name="name" required>
 
@@ -137,7 +134,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php endforeach; ?>
             </select>
 
-            <button type="submit">Products</button>
+            <button type="submit">Add Product</button>
         </form>
     </div>
 </body>
