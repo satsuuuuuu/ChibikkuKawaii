@@ -147,8 +147,8 @@ $conn->close();
                             <li class="splide__slide">
                                 <img src="images/carousel<?php echo $i; ?>.jpg" alt="Cute Kawaii Product <?php echo $i; ?>" class="product-image">
                                 <div class="overlay-text">
-                                    <h1>Adorable Plush Toys</h1>
-                                    <p>Soft, cuddly, and perfect for any kawaii enthusiast!</p>
+                                    <h1>Anime Figurines</h1>
+                                    <p></p>
                                     <a href="shop.php" class="cta-button">Shop Now</a>
                                 </div>
                             </li>
@@ -203,7 +203,7 @@ $conn->close();
                     foreach ($mainFigures as $figure): ?>
                         <div class="anime-figure-card">
                             <div class="anime-figure-image-container">
-                                <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'images/default-placeholder.png'); ?>" 
+                                <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
                                      alt="<?php echo htmlspecialchars($figure['name']); ?>" 
                                      class="anime-figure-image" 
                                      loading="lazy">
@@ -218,7 +218,7 @@ $conn->close();
             <?php else: ?>
                 <p>No anime figures available at the moment.</p>
             <?php endif; ?>
-        </div>
+        </div>  
 
         <!-- Carousel/Slider -->
         <?php if (count($allProducts) > 2): ?>
@@ -232,7 +232,7 @@ $conn->close();
                                 <li class="splide__slide">
                                     <div class="anime-figure-carousel-card">
                                         <div class="anime-figure-carousel-image-container">
-                                            <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'images/default-placeholder.png'); ?>" 
+                                            <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'uploads/default-placeholder.png'); ?>" 
                                                  alt="<?php echo htmlspecialchars($figure['name']); ?>" 
                                                  class="anime-figure-carousel-image" 
                                                  loading="lazy">
@@ -250,56 +250,6 @@ $conn->close();
         <?php endif; ?>
     </section>
 
-        <!-- Carousel/Slider -->
-        <div class="anime-figures-carousel splide" id="splide-anime-figures">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    <?php
-                        // Fetch additional Anime Figures for the carousel
-                        function getAnimeFiguresCarousel($conn) {
-                            $query = "SELECT id, name, original_price, discounted_price, image_path FROM products WHERE category_id = (SELECT id FROM categories WHERE name = 'Anime Figures')";
-                            $stmt = $conn->prepare($query);
-                            if (!$stmt) {
-                                die("Prepare failed: " . htmlspecialchars($conn->error));
-                            }
-                            if (!$stmt->execute()) {
-                                die("Execute failed: " . htmlspecialchars($stmt->error));
-                            }
-                            $result = $stmt->get_result();
-                            $figures = [];
-                            while ($row = $result->fetch_assoc()) {
-                                $figures[] = $row;
-                            }
-                            $stmt->close();
-                            return $figures;
-                        }
-
-                        $carouselFigures = getAnimeFiguresCarousel($conn);
-                    ?>
-                    <?php foreach ($carouselFigures as $figure): ?>
-                        <li class="splide__slide">
-                            <div class="anime-figure-carousel-card">
-                                <div class="anime-figure-carousel-image-container">
-                                    <img src="<?php echo htmlspecialchars($figure['image_path'] ?: 'images/default-placeholder.png'); ?>" 
-                                         alt="<?php echo htmlspecialchars($figure['name']); ?>" 
-                                         class="anime-figure-carousel-image" 
-                                         loading="lazy">
-                                </div>
-                                <h4 class="anime-figure-carousel-name"><?php echo htmlspecialchars($figure['name']); ?></h4>
-                                <p class="anime-figure-carousel-original-price">$<?php echo number_format($figure['original_price'], 2); ?></p>
-                                <p class="anime-figure-carousel-discounted-price">$<?php echo number_format($figure['discounted_price'], 2); ?></p>
-                                <button class="add-to-cart" data-product-id="<?php echo htmlspecialchars($figure['id']); ?>">Add to Cart</button>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <!-- ... Remaining Sections (Login Modal, Toasts, Footer, etc.) ... -->
-
-</div>
         <!-- Login Modal -->
 <!-- Login Modal Container -->
 <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
