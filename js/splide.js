@@ -44,4 +44,49 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 updateCart();
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize Featured Carousel
+    new Splide('#splide-featured', {
+        type       : 'loop',
+        perPage    : 4,
+        gap        : '20px',
+        autoplay   : true,
+        interval   : 4000,
+        breakpoints: {
+            1200: {
+                perPage: 3,
+            },
+            768: {
+                perPage: 2,
+            },
+            480: {
+                perPage: 1,
+            },
+        },
+    }).mount();
 
+    // Initialize Anime Figures Carousel
+    new Splide('#splide-anime-figures', {
+        type       : 'loop',
+        perPage    : 5,
+        gap        : '15px',
+        autoplay   : true,
+        interval   : 3500,
+        arrows     : true,
+        pagination : false,
+        breakpoints: {
+            1600: {
+                perPage: 4,
+            },
+            1200: {
+                perPage: 3,
+            },
+            768: {
+                perPage: 2,
+            },
+            480: {
+                perPage: 1,
+            },
+        },
+    }).mount();
+});

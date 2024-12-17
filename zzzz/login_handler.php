@@ -44,14 +44,14 @@ session_regenerate_id(true);
 // Merge session cart with user cart
 function mergeCarts($conn, $user_id, $session_id) {
     // Fetch user's cart ID
-    $stmt = $conn->prepare("SELECT id FROM carts WHERE user_id = ?");
+    $stmt = $conn->prepare("SELECT id FROM cart WHERE user_id = ?");
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
     $stmt->bind_result($user_cart_id);
     if (!$stmt->fetch()) {
         // No cart exists, create one
         $stmt->close();
-        $stmt = $conn->prepare("INSERT INTO carts (user_id) VALUES (?)");
+        $stmt = $conn->prepare("INSERT INTO cart (user_id) VALUES (?)");
         $stmt->bind_param("i", $user_id);
         if ($stmt->execute()) {
             $user_cart_id = $stmt->insert_id;
@@ -63,7 +63,7 @@ function mergeCarts($conn, $user_id, $session_id) {
     $stmt->close();
 
     // Fetch session cart ID
-    $stmt = $conn->prepare("SELECT id FROM carts WHERE session_id = ?");
+    $stmt = $conn->prepare("SELECT id FROM cart WHERE session_id = ?");
     $stmt->bind_param("s", $session_id);
     $stmt->execute();
     $stmt->bind_result($session_cart_id);
@@ -79,7 +79,7 @@ function mergeCarts($conn, $user_id, $session_id) {
         $stmt->close();
 
         // Delete the session cart
-        $stmt = $conn->prepare("DELETE FROM carts WHERE id = ?");
+        $stmt = $conn->prepare("DELETE FROM cart WHERE id = ?");
         $stmt->bind_param("i", $session_cart_id);
         $stmt->execute();
         $stmt->close();

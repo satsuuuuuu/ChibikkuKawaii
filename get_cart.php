@@ -1,65 +1,40 @@
 <?php
-header('Content-Type: application/json');
 session_start();
+include 'db_connect.php';
 
-try {
-    require_once 'db_connect.php';
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'You must be logged in to access the cart.']);
+    exit;
+}
 
-    if (!isset($_SESSION['user_id'])) {
-        throw new Exception('User not logged in');
-    }
+$user_id = $_SESSION['user_id'];
 
-    $user_id = $_SESSION['user_id'];
-    
-    // Updated query to match your table structure
-    $query = "SELECT c.id, c.quantity, p.name, p.image_path, 
-              p.original_price, p.discounted_price, p.stock_status 
-              FROM cart c 
-              JOIN products p ON c.product_id = p.id 
-              WHERE c.user_id = ?";
-              
-    $stmt = $conn->prepare($query);
-    
-    if ($stmt === false) {
-        throw new Exception('Database error: ' . $conn->error);
-    }
+// Fetch cart items
+$query = "SELECT c.product_id, c.quantity, p.discounted_price, p.name, p.image_path, p.stock_status 
+          FROM carts c 
+          JOIN products p ON c.product_id = p.id 
+          WHERE c.user_id = ?";
+$stmt = $conn->prepare($query);
 
-    if (!$stmt->bind_param("i", $user_id)) {
-        throw new Exception('Binding parameters failed: ' . $stmt->error);
-    }
+if (!$stmt) {
+    echo json_encode(['success' => false, 'message' => 'Error preparing query.']);
+    exit;
+}
 
-    if (!$stmt->execute()) {
-        throw new Exception('Execute failed: ' . $stmt->error);
-    }
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-    $result = $stmt->get_result();
-    $cart_items = [];
+$cart_items = [];
+while ($row = $result->fetch_assoc()) {
+    // Debugging: Log the fetched data
+    error_log("Fetched item: " . print_r($row, true));
+    $cart_items[] = $row;
+}
 
-    while ($row = $result->fetch_assoc()) {
-        $cart_items[] = [
-            'id' => $row['id'],
-            'name' => $row['name'],
-            'quantity' => $row['quantity'],
-            'image_path' => $row['image_path'],
-            'original_price' => $row['original_price'],
-            'discounted_price' => $row['discounted_price'],
-            'stock_status' => $row['stock_status']
-        ];
-    }
-
-    $stmt->close();
-    $conn->close();
-
-    echo json_encode([
-        'success' => true,
-        'cart_items' => $cart_items
-    ]);
-
-} catch (Exception $e) {
-    http_response_code(200);
-    echo json_encode([
-        'success' => false,
-        'message' => $e->getMessage()
-    ]);
+if (empty($cart_items)) {
+    echo json_encode(['success' => false, 'message' => 'Your cart is empty.']);
+} else {
+    echo json_encode(['success' => true, 'cart_items' => $cart_items]);
 }
 ?>

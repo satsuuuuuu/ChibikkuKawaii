@@ -8,13 +8,6 @@
     align-items: center;       
                 
 }
-
-.featured-merchandise {
-    padding: 20px 10px;
-    background-color: #fdfdfd;
-    width: 100%;
-}
-
 /* Section Title Styling */
 .section-title {
     text-align: center;
@@ -47,7 +40,6 @@
     width: 100%;
     padding-top: 125%; /* Maintains a 4:5 aspect ratio */
     position: relative;
-    overflow: hidden;
     border-radius: 6px;
     margin-bottom: 15px;
 }
@@ -137,18 +129,6 @@
     }
 }
 
-@media (max-width: 480px) {
-    .product-card {
-        width: 100%;
-        padding: 1.5vw;
-    }
-    .section-title {
-        font-size: 1.4rem;
-    }
-    .description {
-        height: 40px;
-    }
-}
 
 .add-to-cart {
     background-color: #FF69B4;

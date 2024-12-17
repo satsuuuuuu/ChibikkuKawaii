@@ -11,7 +11,7 @@ body {
     flex-direction: column;
     justify-content: center; /* Vertically centers the content */
     align-items: center;     /* Horizontally centers the content */
-    min-height: 60vh;       /* Ensures the body takes at least the full viewport height */
+    min-height: 30vh;       /* Ensures the body takes at least the full viewport height */
 }
 
 /* Wrapper to Expand and Push Footer */
@@ -96,11 +96,7 @@ body {
 }
 
 /* Featured Merchandise Section */
-.featured-merchandise {
-    padding: 20px 10px; /* Reduced padding */
-    background-color: #fdfdfd;
-    width: 100%;
-}
+
 
 /* Section Title Styling */
 .section-title {
@@ -137,7 +133,6 @@ body {
     width: 100%;
     padding-top: 125%; /* Maintains a 2:3 aspect ratio (portrait) */
     position: relative;
-    overflow: hidden;
     border-radius: 6px; /* Matches the border radius of .product-image */
     margin-bottom: 15px; /* Adds space below the image */
 }
@@ -247,11 +242,13 @@ body {
 }
 
 @media (max-width: 480px) {
+
     .wrapper {
-        margin-top: 1vh;
+        margin-top: 60px;
         padding-bottom: 1vh;
     }
     .hero-carousel {
+        padding-top: 70px;
         height: 20vh; /* Further reduced height for mobile devices */
         margin-bottom: 3vh;
     }
@@ -277,25 +274,333 @@ body {
     }
 }
 
-#loginModal {
+/* Overlay Background */
+.overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000; /* Base z-index for overlay */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    transition: opacity 0.3s ease;
+}
+
+/* Login Modal Container */
+.modal {
+    font-family: 'Arial', 'Helvetica Neue', Helvetica, sans-serif;
+    justify-content: center;
+    align-items: center;
     display: none; /* Hidden by default */
     position: fixed;
     z-index: 1100; /* Higher z-index for login modal */
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
     width: 90%;
     max-width: 500px;
-    background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     overflow: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
 }
 
-/* Login Modal Content */
-#loginModal .modal-content {
+/* Show Modal */
+.modal.show {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Show Overlay */
+.overlay.show {
+    display: block;
+    opacity: 1;
+}
+
+/* Modal Content */
+.modal-content {
     position: relative;
-    z-index: 1110; /* Ensure modal content is above everything */
     padding: 20px;
     background-color: #fff;
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: rgb(255, 164, 164);
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    position: relative;
+}
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5em;
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Labels */
+.form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Error Message */
+.error-message {
+    display: none; /* Hidden by default */
+    color: #fff;
+    background-color: #e74c3c;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: rgb(255, 164, 164);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: rgb(255, 164, 164);
+}
+
+/* Signup Link */
+.signup-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.signup-link a {
+    color: rgb(255, 164, 164);
+    text-decoration: none;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+/* Responsive Design */
+@media (max-width: 600px) {
+    #loginModal {
+        width: 95%;
+    }
+}
+
+/* Anime Figures Section */
+.anime-figures-section {
+    padding: 50px 20px;
+    background-color: #ffffff;
+}
+
+.anime-figures-title {
+    color: #444444; /* Dark gray font */
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600; /* Semi-Bold */
+    font-size: 24px;
+    text-align: left;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 30px;
+}
+
+.anime-figures-title::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #F7AFAF; /* Thin peach-colored underline */
+    margin-top: 5px;
+}
+
+.main-products {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.anime-figure-card {
+    flex: 1;
+    border: 1px solid #EEEEEE; /* Light gray border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Shadow effect */
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fafafa;
+    text-align: center;
+}
+
+.anime-figure-image-container {
+    width: 100%;
+    padding-bottom: 100%; /* 1:1 Aspect Ratio */
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.anime-figure-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.anime-figure-name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400; /* Regular */
+    font-size: 18px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+.anime-figure-original-price {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+    text-decoration: line-through;
+}
+
+.anime-figure-discounted-price {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #E57373; /* Red for discounted price */
+    margin-bottom: 15px;
+}
+
+.anime-figure-card .add-to-cart {
+    background-color: #F7AFAF; /* Peach-pink */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.anime-figure-card .add-to-cart:hover {
+    background-color: #E89B9B; /* Darker peach-pink on hover */
+}
+
+/* Carousel Styling */
+.anime-figures-carousel {
+    margin-top: 20px;
+}
+
+.anime-figure-carousel-card {
+    background-color: #ffffff;
+    border: 1px solid #EEEEEE;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+}
+
+.anime-figure-carousel-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.anime-figure-carousel-image-container {
+    width: 100%;
+    padding-bottom: 100%; /* 1:1 Aspect Ratio */
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.anime-figure-carousel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.anime-figure-carousel-name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.anime-figure-carousel-original-price {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #777777;
+    text-decoration: line-through;
+}
+
+.anime-figure-carousel-discounted-price {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #E57373;
+    margin-bottom: 10px;
+}
+
+.anime-figure-carousel-card .add-to-cart {
+    background-color: #F7AFAF;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.anime-figure-carousel-card .add-to-cart:hover {
+    background-color: #E89B9B;
+}
+
+/* Splide.js Navigation Arrows */
+.splide__arrow {
+    background-color: #F7AFAF;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.splide__arrow:hover {
+    background-color: #E89B9B;
 }

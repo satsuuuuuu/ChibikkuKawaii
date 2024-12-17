@@ -128,15 +128,34 @@
 }
 
 @media (max-width: 480px) {
-    .product-card {
-        width: 100%;
-        padding: 1.5vw;
+    .featured-merchandise {
+        justify-content: space-between;
     }
-    .section-title {
-        font-size: 1.4rem;
+    .product-card {
+        width: 48%; /* Two cards per row */
+        padding: 0.8vw; /* Reduced padding */
+        margin-bottom: 8px; /* Space between rows */
+    }
+    .product-name {
+        font-size: 0.9rem;
     }
     .description {
-        height: 40px;
+        font-size: 0.8rem;
+        height: 35px;
+    }
+    .original-price {
+        font-size: 0.8rem;
+    }
+    .discounted-price {
+        font-size: 0.9rem;
+    }
+    .add-to-cart {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    .product-image-container {
+        padding-top: 100%; /* Adjusted aspect ratio */
+        margin-bottom: 10px;
     }
 }
 

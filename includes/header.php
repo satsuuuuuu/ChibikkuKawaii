@@ -29,6 +29,7 @@ function getCategories($conn) {
     <link rel="stylesheet" href="header.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
+        
 document.addEventListener('DOMContentLoaded', function () {
     const cartIcon = document.getElementById('cart-icon');
     const cartPanel = document.getElementById('cart-panel');
@@ -57,41 +58,24 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Fetch cart items from the server
-    function fetchCartItems() {
-    fetch('get_cart.php')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            return response.text().then(text => {
-                try {
-                    return JSON.parse(text);
-                } catch (e) {
-                    console.error('Error parsing JSON:', text);
-                    throw new Error('Invalid JSON response');
-                }
-            });
-        })
-        .then(data => {
-            console.log('Cart Data:', data); // Debug output
-            if (data.success) {
-                renderCartItems(data.cart_items);
-            } else {
-                throw new Error(data.message || 'Failed to load cart items');
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching cart items:', error);
-            const cartItemsContainer = document.getElementById('cart-items-container');
-            if (cartItemsContainer) {
-                cartItemsContainer.innerHTML = `
-                    <div class="cart-error">
-                        <p>Error loading cart items</p>
-                        <p class="error-details">${error.message}</p>
-                    </div>
-                `;
-            }
-        });
+   function fetchCartItems() {
+    fetch('get_cart.php', {
+        method: 'GET', // Use GET since we're fetching data, not sending it
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            renderCartItems(data.cart_items); // Render the cart items
+        } else {
+            console.error('Failed to fetch cart items:', data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching cart items:', error);
+    });
 }
 
 function renderCartItems(cartItems) {
@@ -102,15 +86,24 @@ function renderCartItems(cartItems) {
         return;
     }
 
+    // Check if the cart is empty
     if (!Array.isArray(cartItems) || cartItems.length === 0) {
-        cartItemsContainer.innerHTML = '<p class="empty-cart-message">Your cart is empty</p>';
+        cartItemsContainer.innerHTML = `
+            <p class="empty-cart-message">Your cart is empty</p>
+        `;
         return;
     }
 
     let cartHTML = '<div class="cart-items">';
+    let grandTotal = 0; // Initialize grand total
+
+    // Loop through cart items and generate HTML
     cartItems.forEach(item => {
-        const hasDiscount = parseFloat(item.discounted_price) < parseFloat(item.original_price);
-        
+        const hasDiscount = parseFloat(item.discounted_price) < parseFloat(item.original_price || item.discounted_price);
+        const price = hasDiscount ? parseFloat(item.discounted_price) : parseFloat(item.original_price || item.discounted_price);
+        const total = price * item.quantity; // Calculate total for each product
+        grandTotal += total; // Add to grand total
+
         cartHTML += `
             <div class="cart-item">
                 <div class="cart-item-image">
@@ -119,21 +112,31 @@ function renderCartItems(cartItems) {
                 <div class="cart-item-details">
                     <h3>${item.name}</h3>
                     <div class="price-container">
-                        ${hasDiscount ? 
-                            `<p class="original-price">$${parseFloat(item.original_price).toFixed(2)}</p>
-                             <p class="discounted-price">$${parseFloat(item.discounted_price).toFixed(2)}</p>` :
-                            `<p class="price">$${parseFloat(item.original_price).toFixed(2)}</p>`
-                        }
+                        <p class="price">Price: $${price.toFixed(2)}</p>
+                        <p class="quantity">Quantity: ${item.quantity}</p>
+                        <p class="total">Total: $${total.toFixed(2)}</p>
                     </div>
-                    <p class="quantity">Quantity: ${item.quantity}</p>
-                    <p class="stock-status ${item.stock_status}">${item.stock_status.replace('_', ' ')}</p>
                 </div>
             </div>
         `;
     });
-    cartHTML += '</div>';
+
+    cartHTML += '</div>'; // Close cart items container
+
+    // Add the footer with the grand total and checkout button
+    cartHTML += `
+        <div class="cart-footer">
+            <h3>Grand Total: $${grandTotal.toFixed(2)}</h3>
+            <button class="checkout-button" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    `;
+
+    // Render the cart HTML
     cartItemsContainer.innerHTML = cartHTML;
 }
+
+
+
     function updateCart() {
     fetch('get_cart.php')
         .then(response => response.json())
@@ -147,7 +150,7 @@ function renderCartItems(cartItems) {
 });
     </script>   
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
+   document.addEventListener('DOMContentLoaded', function() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart');
     
     addToCartButtons.forEach(button => {
@@ -155,9 +158,16 @@ function renderCartItems(cartItems) {
             e.preventDefault();
             
             const productId = this.getAttribute('data-product-id');
+            console.log('Product ID:', productId); // Debugging line
+            
+            if (!productId) {
+                alert('Product ID is missing. Please try again.');
+                return;
+            }
+            
             const originalText = this.textContent;
             
-            // Add loading state while maintaining your style
+            // Add loading state
             this.style.opacity = '0.7';
             this.textContent = 'Adding...';
             this.disabled = true;
@@ -172,7 +182,7 @@ function renderCartItems(cartItems) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Update cart count if available
+                    // Update cart count
                     const cartCount = document.getElementById('cart-count');
                     if (cartCount) {
                         cartCount.textContent = data.cart_count;
@@ -207,6 +217,24 @@ function renderCartItems(cartItems) {
         });
     });
 });
+document.getElementById('checkout-button').addEventListener('click', function () {
+    fetch('checkout.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            window.location.href = `order_confirmation.php?order_id=${data.order_id}`;
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => console.error('Error during checkout:', error));
+});
  </script>
 </head>
 <body>
@@ -215,8 +243,9 @@ function renderCartItems(cartItems) {
         <div class="header-content">
             <div class="logo">
                 <img src="images/logo.png" alt="Logo Icon">
-                <span>Chibikku Kawaii</span>
+                <span class="logo-text">Chibikku Kawaii</span>
             </div>
+
             <nav class="nav">
     <div class="nav-links">
         <a href="index.php" class="nav-link">Home</a>
@@ -243,12 +272,7 @@ function renderCartItems(cartItems) {
         </div>
     </div>
 
-    <div class="search-container">
-        <input type="text" class="search-bar" placeholder="Search...">
-        <button class="search-button" id="search-button">
-            <i class="fas fa-search"></i>
-        </button>
-    </div>
+
 
     <div class="icons">
         <?php if ($isLoggedIn): ?>
@@ -287,8 +311,15 @@ function renderCartItems(cartItems) {
         <div id="cart-items-container">
             <!-- Cart items will be displayed here -->
         </div>
+        <script>
+            function proceedToCheckout() {
+    window.location.href = 'checkout.php'; // Redirect to the checkout page
+}
+        </script>
     </div>
 </div>
+       
+
 
 </body>
 </html>

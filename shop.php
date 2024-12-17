@@ -40,6 +40,7 @@ while ($row = $products_result->fetch_assoc()) {
     <link rel="stylesheet" href="css/shop.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="stylesheet" href="css/cart-sidebar.css">
     <link rel="stylesheet" href="css/cart.css">
 </head>
@@ -105,7 +106,39 @@ while ($row = $products_result->fetch_assoc()) {
                 <?php endforeach; ?>
             </div>
         </div>
+<!-- Overlay Background -->
+<div id="loginModalOverlay" class="overlay"></div>
 
+<!-- Login Modal Container -->
+<div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="loginModalLabel">User Login</h2>
+                <button type="button" class="close-btn" id="closeModal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username:</label>
+                        <input type="text" class="input-field" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password:</label>
+                        <input type="password" class="input-field" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div id="loginError" class="error-message">
+                        <!-- Error messages will be injected here -->
+                    </div>
+                    <button type="submit" class="submit-btn">Login</button>
+                </form>
+                <div class="signup-link">
+                    <a href="signup.php">Don't have an account? Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
         <div aria-live="polite" aria-atomic="true" class="position-relative">
             <div class="toast-container position-fixed top-0 end-0 p-3">
             </div>
@@ -123,5 +156,29 @@ while ($row = $products_result->fetch_assoc()) {
     // Close the connection at the end of the file
     $conn->close();
     ?>
+    <script>
+        const loginModal = document.getElementById('loginModal');
+const loginModalOverlay = document.getElementById('loginModalOverlay');
+const closeModalButton = document.getElementById('closeModal');
+
+// Function to close the modal
+function closeModal() {
+    loginModal.classList.remove('show');
+    loginModalOverlay.classList.remove('show');
+}
+
+// Event listener for the close button
+closeModalButton.addEventListener('click', closeModal);
+
+// Optional: Close the modal when clicking outside the modal content
+loginModalOverlay.addEventListener('click', closeModal);
+            document.addEventListener('DOMContentLoaded', () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('showLogin')) {
+                    const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+                    loginModal.show();
+                }
+            });
+    </script>
 </body>
 </html>
